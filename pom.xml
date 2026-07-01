@@ -11,6 +11,9 @@
 	<version>1.2.0</version>
 
 	<description>
+		Bindex MCP Server combines Bindex Core's metadata retrieval,
+		registration, and library recommendation capabilities with Machai MCP
+		Server runtime to expose tools over STDIO or HTTP.
 	</description>
 
 	<properties>
@@ -89,7 +92,7 @@
 	</scm>
 
 	<issueManagement>
-		<url>https://github.com/machanism-org/machai/issues</url>
+		<url>https://github.com/machanism-org/bindex-mcp-server/issues</url>
 	</issueManagement>
 
 </project>
