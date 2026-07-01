@@ -13,6 +13,26 @@
 	<description>
 	</description>
 
+	<properties>
+		<maven.compiler.release>17</maven.compiler.release>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<gw.model>CodeMie:gpt-5.5-2026-04-24</gw.model>
+		<genai.serverId>CodeMie</genai.serverId>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.machanism.machai</groupId>
+			<artifactId>bindex-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.machanism.machai</groupId>
+			<artifactId>machai-mcp-server</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -44,25 +64,13 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.machanism.machai</groupId>
+				<artifactId>gw-maven-plugin</artifactId>
+				<version>1.2.0</version>
+			</plugin>
 		</plugins>
 	</build>
-
-	<properties>
-		<maven.compiler.release>17</maven.compiler.release>
-	</properties>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.machanism.machai</groupId>
-			<artifactId>bindex-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.machanism.machai</groupId>
-			<artifactId>machai-mcp-server</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
 
 	<licenses>
 		<license>
