@@ -9,7 +9,7 @@ Generate or update the content as follows.
    - Review the relatad web page: `https://machai.machanism.org/mcp-server-maven-plugin/index.html` (selector: #bodyColumn).
    - Full description of purpose and benefits.
 3. Download Page
-   - url: `https://github.com/machanism-org/bindex-mcp-server/releases`.
+   - url: `https://sourceforge.net/projects/machanism/files/machai/bindex-mcp-server/releases/`.
 3. Usage
    - Jar file can be used as a STDIO or HTTP MCP server, `how to use` information: `https://machai.machanism.org/machai-mcp-server/index.html#CLI`. 
 4. Key Features
@@ -36,7 +36,7 @@ The related MCP Server Maven Plugin launches Machai MCP servers directly from Ma
 
 Packaged releases are available from the Bindex MCP Server releases page:
 
-- <https://github.com/machanism-org/bindex-mcp-server/releases>
+- <https://sourceforge.net/projects/machanism/files/machai/bindex-mcp-server/releases/>
 
 ## Usage
 
