@@ -8,7 +8,7 @@
 	<groupId>org.machanism.machai</groupId>
 	<artifactId>bindex-mcp-server</artifactId>
 	<name>Bindex MCP Server</name>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 
 	<description>
 		Bindex MCP Server combines Bindex Core's metadata retrieval,
