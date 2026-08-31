@@ -42,45 +42,45 @@ Packaged releases are available from the Bindex MCP Server releases page:
 
 The Bindex MCP Server JAR can be used as either a STDIO MCP server for local process-based clients or an HTTP MCP server for network-accessible clients. The assembled artifact uses `org.machanism.machai.mcp.server.McpServer` as its main class and includes the Bindex Core and Machai MCP Server dependencies.
 
-Build the executable JAR:
+Build and install the executable JAR:
 
 ```bash
 mvn clean install
 ```
 
-Run the server in default STDIO mode for a project workspace:
+The assembly is written to `${env.MACHANISM_PACK_DIR}/machai/bindex-mcp-server/releases`; set `MACHANISM_PACK_DIR` before installing, then run the generated JAR. Run the server in default STDIO mode for a project workspace:
 
 ```bash
-java -jar target/bindex-mcp-server-1.2.0.jar --projectDir /path/to/project
+java -jar /path/to/machai/bindex-mcp-server/releases/bindex-mcp-server-1.4.0.jar --projectDir /path/to/project
 ```
 
 Run the server in stateless HTTP mode:
 
 ```bash
-java -jar target/bindex-mcp-server-1.2.0.jar --port 8080 --projectDir /path/to/project
+java -jar /path/to/machai/bindex-mcp-server/releases/bindex-mcp-server-1.4.0.jar --port 8080 --projectDir /path/to/project
 ```
 
 Run the server in streamable HTTP mode:
 
 ```bash
-java -jar target/bindex-mcp-server-1.2.0.jar --port 8080 --session --projectDir /path/to/project
+java -jar /path/to/machai/bindex-mcp-server/releases/bindex-mcp-server-1.4.0.jar --port 8080 --session --projectDir /path/to/project
 ```
 
-Useful CLI options include `--name`, `--version`, `--config`, `--projectDir`, `--port`, and `--session`. If no port is provided, the server starts in STDIO mode. If a port is provided, the server starts in HTTP mode; adding `--session` selects the streamable HTTP variant.
+Useful CLI options are `--help`, `--name`, `--version`, `--config`, `--projectDir`, `--port`, and `--session` (with short forms `-h`, `-n`, `-v`, `-c`, `-d`, `-p`, and `-s`). `--config` selects the server properties file; when it is omitted, `mcp.properties` is attempted and a missing default file is tolerated. If no port is provided, the server starts in STDIO mode. If a port is provided, the server starts in HTTP mode; adding `--session` selects the streamable HTTP variant. HTTP MCP clients normally connect to the server's `/mcp` endpoint.
 
 For Maven-native project workflows, the MCP Server Maven Plugin can start a Machai MCP server from a Maven project. Start a stateless HTTP MCP server on port 8080:
 
 ```bash
-mvn org.machanism.machai:mcp-server-maven-plugin:stateless -Dmcp.port=8080
+mvn org.machanism.machai:mcp-server-maven-plugin:1.4.0:stateless -Dmcp.port=8080 -Dmcp.config=/path/to/mcp.properties
 ```
 
 Start a streamable HTTP MCP server on port 8080:
 
 ```bash
-mvn org.machanism.machai:mcp-server-maven-plugin:streamable -Dmcp.port=8080
+mvn org.machanism.machai:mcp-server-maven-plugin:1.4.0:streamable -Dmcp.port=8080 -Dmcp.config=/path/to/mcp.properties
 ```
 
-After the server is running, connect an MCP-compatible client to the selected STDIO process or HTTP endpoint and use the exposed Bindex operations to retrieve known metadata, register a `bindex.json` file or JSON record, and recommend libraries that match a natural-language requirement.
+The Maven plugin requires `mcp.port`; provide `mcp.config` with a readable Machai MCP properties file. After the server is running, connect an MCP-compatible client to the selected STDIO process or HTTP `/mcp` endpoint and use the exposed Bindex operations to retrieve known metadata, register a `bindex.json` file or JSON record, and recommend libraries that match a natural-language requirement.
 
 ## Key Features
 
@@ -119,22 +119,22 @@ Build the server artifact:
 mvn clean install
 ```
 
-Run the assembled server artifact in STDIO mode:
+Set `MACHANISM_PACK_DIR` before the build, then run the assembled server artifact in STDIO mode:
 
 ```bash
-java -jar target/bindex-mcp-server-1.2.0.jar --projectDir /path/to/project
+java -jar /path/to/machai/bindex-mcp-server/releases/bindex-mcp-server-1.4.0.jar --projectDir /path/to/project
 ```
 
 Run the assembled server artifact in HTTP mode:
 
 ```bash
-java -jar target/bindex-mcp-server-1.2.0.jar --port 8080 --projectDir /path/to/project
+java -jar /path/to/machai/bindex-mcp-server/releases/bindex-mcp-server-1.4.0.jar --port 8080 --projectDir /path/to/project
 ```
 
 Or start a Maven-launched stateless MCP server for the current project:
 
 ```bash
-mvn org.machanism.machai:mcp-server-maven-plugin:stateless -Dmcp.port=8080
+mvn org.machanism.machai:mcp-server-maven-plugin:1.4.0:stateless -Dmcp.port=8080 -Dmcp.config=/path/to/mcp.properties
 ```
 
 ### Typical Workflow
@@ -152,7 +152,7 @@ mvn org.machanism.machai:mcp-server-maven-plugin:stateless -Dmcp.port=8080
 ## Resources
 
 - Machai Platform: <https://machai.machanism.org/>
-- Bindex MCP Server releases: <https://github.com/machanism-org/bindex-mcp-server/releases>
+- Bindex MCP Server download page: <https://sourceforge.net/projects/machanism/files/machai/bindex-mcp-server/releases/>
 - Bindex MCP Server GitHub repository: <https://github.com/machanism-org/bindex-mcp-server.git>
 - Bindex Core documentation: <https://machai.machanism.org/bindex-core/index.html>
 - Machai MCP Server documentation: <https://machai.machanism.org/machai-mcp-server/index.html>
