@@ -3,7 +3,7 @@ Generate or update the content as follows.
 **Important:** If any section or content already exists, update it with the latest and most accurate information instead of duplicating or skipping it.
 # Page Structure: 
 1. Header
-   - ![SourceForge Downloads (folder)](https://img.shields.io/sourceforge/dt/machanism/machai%2Fbindex-mcp-server%2Freleases)
+   - [![SourceForge Downloads (folder)](https://img.shields.io/sourceforge/dt/machanism/machai%2Fbindex-mcp-server%2Freleases)](https://sourceforge.net/projects/machanism/files/machai/bindex-mcp-server/releases/)
    - Project Title: need to use from pom.xml  
 2. Overview
    - Review the relatad web page: `https://machai.machanism.org/bindex-core/index.html` (selector: #bodyColumn).
