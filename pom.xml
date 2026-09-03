@@ -70,7 +70,7 @@
 			<plugin>
 				<groupId>org.machanism.machai</groupId>
 				<artifactId>gw-maven-plugin</artifactId>
-				<version>1.4.0</version>
+				<version>${project.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.machanism.machai</groupId>
