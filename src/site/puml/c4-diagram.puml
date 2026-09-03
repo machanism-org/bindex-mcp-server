@@ -1,0 +1,36 @@
+' @guidance:
+' Create or update the C4 Component-level PlantUML diagram for the project.
+'
+' - If a C4 Component diagram already exists.
+' - If no diagram exists, generate a new one that clearly represents all major components, their responsibilities, and interactions within the project.
+' - Use PlantUML C4-PlantUML syntax and best practices for clarity and maintainability.
+' - Include only relevant components from `/src/main/java` and external systems; remove or omit unnecessary details.
+' - Organize the diagram for readability, avoiding complexity and clutter.
+' - Add SHOW_LEGEND() at the end of the puml code.
+@startuml BindexMcpServerComponentDiagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Bindex MCP Server — Component Diagram
+
+LAYOUT_LEFT_RIGHT()
+
+Person(mcpClient, "MCP-compatible client", "AI assistant, IDE, or automation that invokes Bindex tools.")
+System_Ext(genAiService, "GenAI and embedding service", "Generates classifications and embeddings.")
+System_Ext(mongoDb, "Bindex repository (MongoDB)", "Persists Bindex metadata and supports vector search.")
+System_Ext(projectWorkspace, "Project workspace", "Project directory containing bindex.json files.")
+
+System_Boundary(bindexServer, "Bindex MCP Server") {
+    Component(mcpRuntime, "Machai MCP Server runtime", "Java 17; STDIO or HTTP", "Starts the server, manages MCP transport, and publishes available tools.")
+    Component(bindexTools, "Bindex MCP tools", "Bindex Core integration", "Retrieves metadata, registers Bindex JSON records or files, and recommends libraries.")
+    Component(metadataWorkflow, "Metadata and recommendation workflow", "Bindex Core", "Normalizes registrations, consolidates version-aware results, and performs semantic recommendations.")
+}
+
+Rel(mcpClient, mcpRuntime, "Invokes Bindex operations", "MCP over STDIO or HTTP (/mcp)")
+Rel(mcpRuntime, bindexTools, "Dispatches tool calls")
+Rel(bindexTools, metadataWorkflow, "Executes retrieval, registration, and recommendation workflows")
+Rel(bindexTools, projectWorkspace, "Reads Bindex JSON files", "File system")
+Rel(metadataWorkflow, mongoDb, "Loads, saves, and searches Bindex metadata", "MongoDB")
+Rel(metadataWorkflow, genAiService, "Requests classification and embeddings", "Configured GenAI API")
+
+SHOW_LEGEND()
+@enduml

@@ -1,0 +1,130 @@
+{
+  "$schema": "https://raw.githubusercontent.com/machanism-org/machai/refs/heads/main/bindex-core/src/main/resources/schema/bindex-schema-v2.json",
+  "id": "org.machanism.machai:bindex-mcp-server:1.4.0",
+  "name": "org.machanism.machai:bindex-mcp-server",
+  "version": "1.4.0",
+  "description": "Bindex MCP Server is a Java 17 standalone Model Context Protocol server distribution for Bindex metadata operations. It packages Bindex Core with the Machai MCP Server runtime and exposes AI-callable capabilities to retrieve registered Bindex metadata, register a bindex.json file or JSON record, and recommend libraries from natural-language requirements. The server supports local STDIO transport as well as HTTP transport, including stateless HTTP and streamable session-capable HTTP modes. It is intended for MCP-compatible clients, build automation, Maven-based development workflows, integration tests, and project-aware AI agents that need structured artifact metadata, semantic library discovery, version-aware recommendation results, and metadata registration. Bindex registration and recommendation workflows use configured GenAI and embedding services and a Bindex repository, commonly MongoDB with vector search. The executable assembly starts the fully qualified entry point org.machanism.machai.mcp.server.McpServer. The project depends on org.machanism.machai:bindex-core:1.4.0 and org.machanism.machai:machai-mcp-server:1.4.0.",
+  "authors": [
+    {
+      "name": "Machanism.org",
+      "website": "https://machai.machanism.org/"
+    }
+  ],
+  "license": "Apache License, Version 2.0",
+  "classification": {
+    "type": "MCP server",
+    "domains": [
+      "Model Context Protocol",
+      "AI-assisted development",
+      "Library metadata management",
+      "Semantic library discovery",
+      "Build automation"
+    ],
+    "languages": [
+      {
+        "name": "Java",
+        "version": "17"
+      }
+    ],
+    "layers": [
+      "Infrastructure",
+      "Adapters"
+    ],
+    "usageContext": [
+      "MCP-compatible AI clients",
+      "Local developer tooling",
+      "HTTP service integrations",
+      "Maven project workflows",
+      "Automated metadata registration and library recommendation"
+    ],
+    "targetEnvironment": [
+      "Java"
+    ],
+    "integrations": [
+      "MongoDB"
+    ]
+  },
+  "constructors": [
+    {
+      "package": "org.machanism.machai.mcp.server",
+      "signature": "org.machanism.machai.mcp.server.McpServer main(java.lang.String[] args)",
+      "description": "The packaged Java application entry point starts the Machai MCP runtime with Bindex capabilities. With no port option it communicates over STDIO; supplying a port starts HTTP transport, and the session option selects streamable HTTP mode.",
+      "examples": [
+        {
+          "snippet": "java -jar bindex-mcp-server-1.4.0.jar --projectDir /path/to/project",
+          "description": "Start the packaged server as a local STDIO MCP process for the specified project workspace. Configure an MCP client to launch this command and communicate through its standard input and output streams."
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "package": "org.machanism.machai.mcp.server",
+      "name": "Start Bindex MCP server",
+      "signature": "org.machanism.machai.mcp.server.McpServer main(java.lang.String[] args)",
+      "description": "Runs the executable Bindex MCP server. The runtime exposes Bindex metadata retrieval, registration, and natural-language library recommendation operations to connected MCP clients. HTTP clients connect to the MCP endpoint after the server is started with a port.",
+      "examples": [
+        {
+          "snippet": "java -jar bindex-mcp-server-1.4.0.jar --port 8080 --projectDir /path/to/project",
+          "description": "Start stateless HTTP MCP transport on port 8080 for a project workspace. Connect a compatible client to the server MCP endpoint and invoke Bindex retrieval, registration, or recommendation operations."
+        },
+        {
+          "snippet": "java -jar bindex-mcp-server-1.4.0.jar --port 8080 --session --projectDir /path/to/project",
+          "description": "Start streamable session-capable HTTP MCP transport when the client supports session-based MCP communication."
+        }
+      ]
+    },
+    {
+      "package": "org.machanism.machai.bindex",
+      "name": "Register and recommend Bindex metadata",
+      "signature": "org.machanism.machai.mcp.server.McpServer main(java.lang.String[] args)",
+      "description": "Provides the Bindex Core-backed operations exposed by the MCP runtime: retrieve a Bindex record, register a Bindex JSON file or JSON object, and find recommended libraries based on a natural-language requirement. Registration normalizes metadata and can generate classification and embeddings; recommendation uses configured semantic search and relevance settings.",
+      "examples": [
+        {
+          "snippet": "mvn org.machanism.machai:mcp-server-maven-plugin:1.4.0:stateless -Dmcp.port=8080 -Dmcp.config=/path/to/mcp.properties",
+          "description": "Install or resolve the Maven plugin through Maven, provide a readable Machai MCP properties file, and start a project-aware stateless HTTP server. After startup, connect an MCP client to the HTTP MCP endpoint and register a project bindex.json or request libraries for a stated requirement."
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "title": "Build, configure, and run a local STDIO MCP server",
+      "steps": [
+        "Install Java 17 or later and Apache Maven.",
+        "Set the MACHANISM_PACK_DIR environment variable to the directory that will receive assembled releases.",
+        "Run mvn clean install in the Bindex MCP Server project to build the executable JAR with dependencies.",
+        "Configure the required Machai MCP, GenAI, embedding, and Bindex repository settings for the environment.",
+        "Configure an MCP-compatible client to launch: java -jar bindex-mcp-server-1.4.0.jar --projectDir /path/to/project.",
+        "Use the connected client to retrieve Bindex metadata, register a bindex.json document, or request library recommendations."
+      ],
+      "description": "This scenario uses STDIO for a local AI client integration. The server process is launched by the client and operates with the supplied project directory as workspace context."
+    },
+    {
+      "title": "Run an HTTP MCP service for a team integration",
+      "steps": [
+        "Obtain the bindex-mcp-server-1.4.0.jar release or build it with Maven.",
+        "Create and supply the Machai MCP configuration required by the deployment, including repository and model settings when registration or recommendation is needed.",
+        "Run: java -jar bindex-mcp-server-1.4.0.jar --port 8080 --projectDir /path/to/project.",
+        "Connect an MCP-compatible HTTP client to the server MCP endpoint.",
+        "For streamable session-aware clients, add the --session option when starting the server.",
+        "Invoke Bindex operations to maintain artifact metadata and discover libraries matching natural-language needs."
+      ],
+      "description": "This scenario exposes Bindex capabilities over HTTP for automation or remote MCP clients."
+    }
+  ],
+  "dependencies": [
+    "org.machanism.machai:bindex-core:1.4.0",
+    "org.machanism.machai:machai-mcp-server:1.4.0"
+  ],
+  "location": {
+    "repositoryType": "Maven",
+    "repositoryUrl": "https://repo.maven.apache.org/maven2",
+    "coordinates": {
+      "group": "org.machanism.machai",
+      "artifactId": "bindex-mcp-server",
+      "version": "1.4.0",
+      "extension": "jar"
+    }
+  }
+}
