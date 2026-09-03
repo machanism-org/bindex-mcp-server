@@ -25,7 +25,7 @@ Generate or update the content as follows.
 
 # Bindex MCP Server
 
-![SourceForge Downloads (folder)](https://img.shields.io/sourceforge/dt/machanism/machai%2Fbindex-mcp-server%2Freleases)
+[![SourceForge Downloads (folder)](https://img.shields.io/sourceforge/dt/machanism/machai%2Fbindex-mcp-server%2Freleases)](https://sourceforge.net/projects/machanism/files/machai/bindex-mcp-server/releases/)
 
 ## Overview
 
