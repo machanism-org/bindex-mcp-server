@@ -9,6 +9,7 @@ Generate or update the content as follows.
    - Review the relatad web page: `https://machai.machanism.org/bindex-core/index.html` (selector: #bodyColumn).
    - Review the relatad web page: `https://machai.machanism.org/mcp-server-maven-plugin/index.html` (selector: #bodyColumn).
    - Full description of purpose and benefits.
+   - Use: src/site/resources/images/c4-diagram.png
 3. Download Page
    - url: `https://sourceforge.net/projects/machanism/files/machai/bindex-mcp-server/releases/`.
 3. Usage
@@ -35,6 +36,8 @@ Bindex Core helps Ghostwriter, Maven integrations, build automation, and AI-assi
 
 The related MCP Server Maven Plugin launches Machai MCP servers directly from Maven projects. It starts HTTP-based stateless or streamable MCP servers that are aligned with the current Maven project directory, metadata, runtime parameters, and optional Maven `settings.xml` credentials. Bindex MCP Server is the packaged server artifact for Bindex-enabled tools, making it useful for local development, demonstrations, integration testing, build automation, project-aware AI workflows, and repeatable library discovery or registration tasks.
 
+![C4 component diagram for Bindex Core](src/site/resources/images/c4-diagram.png)
+
 ## Download Page
 
 Packaged releases are available from the Bindex MCP Server releases page:
@@ -44,6 +47,8 @@ Packaged releases are available from the Bindex MCP Server releases page:
 ## Usage
 
 The Bindex MCP Server JAR can be used as either a STDIO MCP server for local process-based clients or an HTTP MCP server for network-accessible clients. The assembled artifact uses `org.machanism.machai.mcp.server.McpServer` as its main class and includes the Bindex Core and Machai MCP Server dependencies.
+
+See the [Machai MCP Server CLI documentation](https://machai.machanism.org/machai-mcp-server/index.html#CLI) for the server's command-line usage.
 
 Build and install the executable JAR:
 
