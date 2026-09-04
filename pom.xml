@@ -50,9 +50,10 @@
 							<Implementation-Version>${project.version}</Implementation-Version>
 						</manifestEntries>
 					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
+					<descriptors>
+						<descriptor>
+							src/assembly/assembly-jar.xml</descriptor>
+					</descriptors>
 					<appendAssemblyId>false</appendAssemblyId>
 					<outputDirectory>
 						${env.MACHANISM_PACK_DIR}/machai/${project.artifactId}/releases</outputDirectory>
