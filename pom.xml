@@ -5,10 +5,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.machanism.machai</groupId>
+	<parent>
+		<groupId>org.machanism.machai</groupId>
+		<artifactId>machai</artifactId>
+		<version>1.4.1-SNAPSHOT</version>
+	</parent>
+
 	<artifactId>bindex-mcp-server</artifactId>
 	<name>Bindex MCP Server</name>
-	<version>1.4.1-SNAPSHOT</version>
 
 	<description>
 		Bindex MCP Server combines Bindex Core's metadata retrieval,
@@ -18,6 +22,8 @@
 
 	<properties>
 		<maven.compiler.release>17</maven.compiler.release>
+		<maven.javadoc.skip>false</maven.javadoc.skip>
+		<gw.acts></gw.acts>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<gw.model>CodeMie:gpt-5.6-terra-2026-07-09</gw.model>
 		<genai.serverId>CodeMie</genai.serverId>
@@ -71,7 +77,6 @@
 			<plugin>
 				<groupId>org.machanism.machai</groupId>
 				<artifactId>gw-maven-plugin</artifactId>
-				<version>${project.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.machanism.machai</groupId>
@@ -83,6 +88,25 @@
 		</plugins>
 	</build>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<links>
+						<link>
+							https://docs.oracle.com/en/java/javase/11/docs/api/</link>
+						<link>
+							https://macha.machanism.org/core/core-commons/configurator/apidocs/</link>
+						<link>
+							https://machai.machanism.org/ghostwriter/apidocs/</link>
+					</links>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
@@ -90,17 +114,5 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-
-	<scm>
-		<connection>
-			scm:git:https://github.com/machanism-org/bindex-mcp-server.git</connection>
-		<developerConnection>
-			scm:git:https://github.com/machanism-org/bindex-mcp-server.git</developerConnection>
-		<url>https://github.com/machanism-org/bindex-mcp-server.git</url>
-	</scm>
-
-	<issueManagement>
-		<url>https://github.com/machanism-org/bindex-mcp-server/issues</url>
-	</issueManagement>
 
 </project>
