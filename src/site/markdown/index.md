@@ -46,7 +46,7 @@ Bindex registration and semantic recommendations use the GenAI Client provider a
 | Parameter | Description | Default value |
 | --- | --- | --- |
 | Provider/model identifier | Provider and model, normally `Provider:Model`; for Bindex, `pick.model` overrides `gw.model` for request classification. | Required; `pick.model` falls back to `gw.model` |
-| `gw.model` | GenAI model used by the Bindex picker when `pick.model` is not configured. | Host/application-defined |
+| `gw.model` | GenAI model used by the Bindex picker when `pick.model` is not configured. | `CodeMie:gpt-5.6-terra-2026-07-09` |
 | `embedding.model` | Provider/model used to embed classifications for semantic search. | Host/application-defined |
 | `OPENAI_API_KEY` | API key for OpenAI or OpenAI-compatible requests. | Required for OpenAI-compatible providers |
 | `OPENAI_BASE_URL` | Base URL override for an OpenAI-compatible API. | OpenAI SDK default |

@@ -15,22 +15,27 @@ title Bindex MCP Server — Component Diagram
 LAYOUT_LEFT_RIGHT()
 
 Person(mcpClient, "MCP-compatible client", "AI assistant, IDE, or automation that invokes Bindex tools.")
-System_Ext(genAiService, "GenAI and embedding service", "Generates classifications and embeddings.")
+System_Ext(projectWorkspace, "Project workspace", "Project directory containing Bindex JSON files.")
+System_Ext(remoteBindexSource, "Remote Bindex source", "HTTP(S) location hosting a Bindex JSON document.")
 System_Ext(mongoDb, "Bindex repository (MongoDB)", "Persists Bindex metadata and supports vector search.")
-System_Ext(projectWorkspace, "Project workspace", "Project directory containing bindex.json files.")
+System_Ext(genAiService, "GenAI and embedding service", "Generates classifications and embeddings for semantic discovery.")
 
 System_Boundary(bindexServer, "Bindex MCP Server") {
-    Component(mcpRuntime, "Machai MCP Server runtime", "Java 17; STDIO or HTTP", "Starts the server, manages MCP transport, and publishes available tools.")
-    Component(bindexTools, "Bindex MCP tools", "Bindex Core integration", "Retrieves metadata, registers Bindex JSON records or files, and recommends libraries.")
-    Component(metadataWorkflow, "Metadata and recommendation workflow", "Bindex Core", "Normalizes registrations, consolidates version-aware results, and performs semantic recommendations.")
+    Component(mcpRuntime, "Machai MCP Server runtime", "Java 17; STDIO or HTTP", "Hosts MCP transport, accepts client requests, and publishes the available tools.")
+    Component(toolAdapter, "Bindex MCP tool adapter", "Bindex Core integration", "Maps MCP tool calls to Bindex metadata and library-discovery operations.")
+    Component(metadataOperations, "Bindex Core metadata operations", "Bindex Core", "Retrieves metadata and schema, and validates, normalizes, and registers Bindex records.")
+    Component(recommendationOperations, "Bindex Core recommendation operations", "Bindex Core", "Classifies requirements, performs semantic search, and applies relevance and version-aware filters.")
 }
 
 Rel(mcpClient, mcpRuntime, "Invokes Bindex operations", "MCP over STDIO or HTTP (/mcp)")
-Rel(mcpRuntime, bindexTools, "Dispatches tool calls")
-Rel(bindexTools, metadataWorkflow, "Executes retrieval, registration, and recommendation workflows")
-Rel(bindexTools, projectWorkspace, "Reads Bindex JSON files", "File system")
-Rel(metadataWorkflow, mongoDb, "Loads, saves, and searches Bindex metadata", "MongoDB")
-Rel(metadataWorkflow, genAiService, "Requests classification and embeddings", "Configured GenAI API")
+Rel(mcpRuntime, toolAdapter, "Dispatches tool calls")
+Rel(toolAdapter, metadataOperations, "Retrieves metadata, serves schema, and registers records")
+Rel(toolAdapter, recommendationOperations, "Finds recommended libraries")
+Rel(metadataOperations, projectWorkspace, "Reads Bindex JSON files", "File system")
+Rel(metadataOperations, remoteBindexSource, "Retrieves Bindex JSON documents", "HTTP(S)")
+Rel(metadataOperations, mongoDb, "Loads and saves Bindex metadata", "MongoDB")
+Rel(recommendationOperations, mongoDb, "Performs vector and metadata searches", "MongoDB")
+Rel(recommendationOperations, genAiService, "Requests classifications and embeddings", "Configured GenAI API")
 
 SHOW_LEGEND()
 @enduml

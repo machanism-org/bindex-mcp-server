@@ -65,6 +65,26 @@ Download packaged releases from [SourceForge](https://sourceforge.net/projects/m
 - Provides Bindex schema and metadata-generation guidance to support consistent library descriptors.
 - Uses a single runnable Java artifact that can be extended with compatible tool libraries on the runtime classpath.
 
+## AI Provider Configuration
+
+Bindex registration and semantic recommendations use the GenAI provider abstraction supplied by Machai. Configure the generation or classification model with `gw.model` (or `pick.model`) and configure a compatible embedding model with `embedding.model`. The embedding model must produce vectors compatible with the MongoDB repository's vector index.
+
+- **OpenAI** — Use model identifiers such as `OpenAI:gpt-4o-mini` or `OpenAI:text-embedding-3-small` and set `OPENAI_API_KEY`. `OPENAI_BASE_URL` optionally selects an OpenAI-compatible endpoint.
+- **Anthropic** — Use an identifier such as `Anthropic:claude-3-5-sonnet` and set `ANTHROPIC_API_KEY`. `ANTHROPIC_BASE_URL` is optional.
+- **CodeMie** — Use identifiers such as `CodeMie:gpt-4o-mini`, `CodeMie:claude-3-5-sonnet`, or `CodeMie:text-embedding-005`. Set `GENAI_USERNAME` and `GENAI_PASSWORD`; `AUTH_URL` optionally overrides the token endpoint.
+- **Tools and None** — `Tools:yaml` invokes registered local Java tools without an external AI service. `None:disabled` and `None:log` provide no-op and diagnostic providers for safe defaults or tests.
+
+| Parameter | Purpose | Default |
+| --- | --- | --- |
+| `gw.model` | GenAI model used by the picker unless `pick.model` is set. | Host/application-defined |
+| `pick.model` | Model used specifically to classify library-selection requests. | Falls back to `gw.model` |
+| `embedding.model` | Provider/model used to encode classifications for semantic search. | Host/application-defined |
+| `OPENAI_API_KEY` / `OPENAI_BASE_URL` | Credentials and optional endpoint override for OpenAI-compatible providers. | API key required for OpenAI |
+| `ANTHROPIC_API_KEY` / `ANTHROPIC_BASE_URL` | Credentials and optional endpoint override for Anthropic. | API key required for Anthropic |
+| `GENAI_USERNAME`, `GENAI_PASSWORD`, `AUTH_URL` | CodeMie credentials and optional OpenID Connect token endpoint. | Provider-specific |
+| `GENAI_TIMEOUT` | Request timeout in seconds; `0` or no value uses SDK behavior. | `0` |
+| `MAX_OUTPUT_TOKENS` / `MAX_TOOL_CALLS` | Generation-output and OpenAI Responses API tool-call limits. | `18000` / `0` |
+
 ## Getting Started
 
 ### Prerequisites
@@ -78,16 +98,16 @@ Download packaged releases from [SourceForge](https://sourceforge.net/projects/m
 
 ### Basic Usage
 
-The JAR can run as either a STDIO or HTTP MCP server. Put the release JAR on the Java classpath and start the MCP server entry point. The following starts an HTTP server on port 45000:
+The assembled release JAR can run as either a STDIO or HTTP MCP server. Start the executable JAR directly; the following starts a stateless HTTP MCP endpoint at `http://localhost:45000/mcp`:
 
 ```bash
-java -cp bindex-mcp-server.jar org.machanism.machai.mcp.server.McpServer --port 45000
+java -jar bindex-mcp-server.jar --port 45000
 ```
 
 Omit `--port` to use STDIO, which is suitable for local desktop-client integrations:
 
 ```bash
-java -cp bindex-mcp-server.jar org.machanism.machai.mcp.server.McpServer
+java -jar bindex-mcp-server.jar
 ```
 
 For streamable HTTP transport, add `--session`. You can also use `--projectDir <path>` to provide a project context and `--config <path>` to load server properties. See the [Machai MCP Server CLI guide](https://machai.machanism.org/machai-mcp-server/index.html#CLI) for all options and client configuration examples.
@@ -96,7 +116,7 @@ For streamable HTTP transport, add `--session`. You can also use `--projectDir <
 
 1. Download a release or build the artifact with Maven.
 2. Configure the MongoDB repository, GenAI provider, embedding model, and any required credentials.
-3. Start the artifact in STDIO mode for a local client, or with `--port` for HTTP access.
+3. Start the artifact in STDIO mode for a local client, or with `--port` for HTTP access at `/mcp`.
 4. Connect an MCP client and verify that the Bindex tools are available.
 5. Use the tools to retrieve or register Bindex metadata, or submit a natural-language request to receive library recommendations.
 6. Use the resulting descriptors and recommendations to select dependencies and guide implementation.
@@ -108,4 +128,5 @@ For streamable HTTP transport, add `--session`. You can also use `--projectDir <
 - [Bindex MCP Server on Maven Central](https://central.sonatype.com/artifact/org.machanism.machai/bindex-mcp-server)
 - [Bindex Core documentation](https://machai.machanism.org/bindex-core/index.html)
 - [Machai MCP Server documentation](https://machai.machanism.org/machai-mcp-server/index.html)
+- [Machai MCP Server Maven Plugin documentation](https://machai.machanism.org/mcp-server-maven-plugin/index.html)
 - [Machai platform](https://machai.machanism.org/)
