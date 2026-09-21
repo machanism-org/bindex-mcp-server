@@ -94,6 +94,12 @@ Start a stateless HTTP server on port `45000`:
 java -cp "path\to\bindex-mcp-server.jar" org.machanism.machai.mcp.server.McpServer --port 45000
 ```
 
+Alternatively, start a stateless HTTP endpoint from a Maven project with the related MCP Server Maven Plugin:
+
+```powershell
+mvn org.machanism.machai:mcp-server-maven-plugin:1.4.1:stateless -Dmcp.port=45000 -Dmcp.config=path\to\mcp.properties
+```
+
 Add `--session` to the HTTP command for streamable transport. Additional options such as `--projectDir`, `--config`, `--name`, and `--version` configure the runtime. See the [Machai MCP Server CLI guide](https://machai.machanism.org/machai-mcp-server/index.html#CLI) for complete command-line and client configuration details.
 
 ### Typical Workflow
