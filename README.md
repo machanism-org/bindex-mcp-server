@@ -27,6 +27,8 @@ IMPORTANT: Do not add [Maven Central] shield to the page.
 
 [![bindex](https://img.shields.io/badge/bindex-blue.svg)](https://raw.githubusercontent.com/machanism-org/bindex-mcp-server/refs/heads/main/bindex.json)
 
+Bindex MCP Server packages Bindex Core with the Machai MCP runtime to provide metadata registration, retrieval, and natural-language library recommendations over STDIO or HTTP.
+
 ## Cloning and Getting Started
 
 To clone and set up this project locally, follow these steps:
@@ -43,7 +45,7 @@ To clone and set up this project locally, follow these steps:
 
 ## Overview
 
-Bindex MCP Server is a Java 17 distribution that combines [Bindex Core](https://machai.machanism.org/bindex-core/index.html) with the [Machai MCP Server](https://machai.machanism.org/machai-mcp-server/index.html). It exposes Bindex metadata retrieval, registration, schema access, and natural-language library recommendations as Model Context Protocol (MCP) tools for AI assistants, IDEs, and automation clients.
+Bindex MCP Server is a Java 17 distribution that combines [Bindex Core](https://machai.machanism.org/bindex-core/index.html) with the [Machai MCP Server](https://machai.machanism.org/machai-mcp-server/index.html). It exposes Bindex metadata retrieval, registration, and natural-language library recommendations as Model Context Protocol (MCP) tools for AI assistants, IDEs, and automation clients.
 
 Bindex records describe software libraries using structured coordinates, versions, purpose, classification, integrations, dependencies, examples, and configuration guidance. Through this server, clients can inspect complete or GraphQL-filtered descriptors, register metadata from JSON, project-relative files, or remote URLs, and find reusable libraries from a natural-language request. Bindex Core combines AI-generated classifications and embeddings with language, architectural-layer, similarity-score, and version-aware filtering over a MongoDB-backed repository. This improves dependency selection, makes reusable capabilities discoverable, and reduces duplicate implementation work.
 
@@ -65,7 +67,7 @@ The MCP-compatible client communicates with the Machai runtime over STDIO or HTT
 
 ![Bindex MCP Server component diagram](src/site/resources/images/c4-diagram.png)
 
-## Download
+## Download Page
 
 Prebuilt release artifacts are available from the [Bindex MCP Server download page](https://sourceforge.net/projects/machanism/files/machai/bindex-mcp-server/releases/).
 
@@ -85,13 +87,13 @@ Prebuilt release artifacts are available from the [Bindex MCP Server download pa
 Run the assembled JAR over STDIO on Windows:
 
 ```powershell
-java -cp "path\to\bindex-mcp-server.jar" org.machanism.machai.mcp.server.McpServer
+java -jar "path\to\bindex-mcp-server.jar"
 ```
 
 Start a stateless HTTP server on port `45000`:
 
 ```powershell
-java -cp "path\to\bindex-mcp-server.jar" org.machanism.machai.mcp.server.McpServer --port 45000
+java -jar "path\to\bindex-mcp-server.jar" --port 45000
 ```
 
 Alternatively, start a stateless HTTP endpoint from a Maven project with the related MCP Server Maven Plugin:
