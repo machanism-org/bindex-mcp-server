@@ -116,5 +116,9 @@
 			scm:git:https://github.com/machanism-org/bindex-mcp-server.git</developerConnection>
 		<url>https://github.com/machanism-org/bindex-mcp-server.git</url>
 	</scm>
+	
+	<issueManagement>
+		<url>https://github.com/machanism-org/bindex-mcp-server/issues</url>
+	</issueManagement>
 
 </project>
