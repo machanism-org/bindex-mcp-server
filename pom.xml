@@ -20,6 +20,46 @@
 		Server runtime to expose tools over STDIO or HTTP.
 	</description>
 
+	<profiles>
+		<profile>
+			<id>pack</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>
+										org.machanism.machai.mcp.server.McpServer</mainClass>
+								</manifest>
+								<manifestEntries>
+									<Implementation-Version>${project.version}</Implementation-Version>
+								</manifestEntries>
+							</archive>
+							<descriptors>
+								<descriptor>
+									src/assembly/assembly-jar.xml</descriptor>
+							</descriptors>
+							<appendAssemblyId>false</appendAssemblyId>
+							<outputDirectory>
+								${env.MACHANISM_PACK_DIR}/machai/${project.artifactId}/releases</outputDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>build-artifact</id>
+								<phase>install</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<properties>
 		<maven.compiler.release>17</maven.compiler.release>
 		<maven.javadoc.skip>false</maven.javadoc.skip>
@@ -41,52 +81,6 @@
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>
-								org.machanism.machai.mcp.server.McpServer</mainClass>
-						</manifest>
-						<manifestEntries>
-							<Implementation-Version>${project.version}</Implementation-Version>
-						</manifestEntries>
-					</archive>
-					<descriptors>
-						<descriptor>
-							src/assembly/assembly-jar.xml</descriptor>
-					</descriptors>
-					<appendAssemblyId>false</appendAssemblyId>
-					<outputDirectory>
-						${env.MACHANISM_PACK_DIR}/machai/${project.artifactId}/releases</outputDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<id>build-artifact</id>
-						<phase>install</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.machanism.machai</groupId>
-				<artifactId>gw-maven-plugin</artifactId>
-				<dependencies>
-					<dependency>
-						<groupId>org.machanism.machai</groupId>
-						<artifactId>bindex-core</artifactId>
-						<version>${project.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-		</plugins>
-	</build>
 
 	<reporting>
 		<plugins>
@@ -116,8 +110,10 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:https://github.com/machanism-org/bindex-mcp-server.git</connection>
-		<developerConnection>scm:git:https://github.com/machanism-org/bindex-mcp-server.git</developerConnection>
+		<connection>
+			scm:git:https://github.com/machanism-org/bindex-mcp-server.git</connection>
+		<developerConnection>
+			scm:git:https://github.com/machanism-org/bindex-mcp-server.git</developerConnection>
 		<url>https://github.com/machanism-org/bindex-mcp-server.git</url>
 	</scm>
 
