@@ -62,7 +62,7 @@ Bindex registration and semantic recommendations use Machai's GenAI provider abs
 | `BINDEX_REPO_URL` | MongoDB URI for Bindex metadata storage and vector search. | `mongodb+srv://cluster0.hivfnpr.mongodb.net/?appName=Cluster0` |
 | `BINDEX_USER`, `BINDEX_PASSWORD` | Optional MongoDB authentication credentials. | Not set |
 | `score` / `pick.score` | Minimum semantic similarity accepted for recommendations. | `0.85` for the AI tool; `0.86` in built-in pick/assembly acts |
-| `search-limits` / `vectorSearchLimits` | Maximum vector-search candidates or recommendations. | `25` |
+| `limits` / `vectorSearchLimits` | Maximum vector-search candidates or recommendations. | `25` |
 
 ## Resources
 

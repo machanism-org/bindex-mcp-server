@@ -23,7 +23,7 @@ System_Ext(genAiService, "GenAI and embedding service", "Generates classificatio
 System_Boundary(bindexServer, "Bindex MCP Server") {
     Container_Boundary(serverApplication, "Executable Java 17 application") {
         Component(mcpRuntime, "Machai MCP Server runtime", "Java 17; STDIO or HTTP", "Hosts MCP transport, accepts client requests, and publishes the available tools.")
-        Component(toolAdapter, "Bindex MCP tools", "MCP tool callbacks", "Exposes get-bindex, register-bindex, register-bindex-json, and pick-libraries, and delegates each request to Bindex Core.")
+        Component(toolAdapter, "Bindex MCP tools", "MCP tool callbacks", "Exposes get_bindex, register_bindex, register_bindex_json, and pick_libraries, and delegates each request to Bindex Core.")
         Component(metadataOperations, "Bindex Core metadata operations", "Bindex Core", "Retrieves metadata and schema, and validates, normalizes, and registers Bindex records.")
         Component(recommendationOperations, "Bindex Core recommendation operations", "Bindex Core", "Classifies requirements, performs semantic search, and applies relevance and version-aware filters.")
     }

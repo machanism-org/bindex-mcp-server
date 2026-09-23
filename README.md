@@ -117,12 +117,12 @@ Add `--session` to the HTTP command for streamable transport. Additional options
 
 The main AI-facing operations are:
 
-- `get-bindex` — retrieve a descriptor and optionally limit its fields with a GraphQL-style selection.
-- `pick-libraries` — recommend libraries relevant to a natural-language development request.
-- `register-bindex` — register metadata from a project-relative file or remote URL.
-- `register-bindex-json` — validate and register a Bindex JSON object directly.
+- `get_bindex` — retrieve a descriptor and optionally limit its fields with a GraphQL-style selection.
+- `pick_libraries` — recommend libraries relevant to a natural-language development request.
+- `register_bindex` — register metadata from a project-relative file or remote URL.
+- `register_bindex_json` — validate and register a Bindex JSON object directly.
 
-A typical client first uses `pick-libraries` during planning, inspects selected descriptors with `get-bindex`, and applies their installation and configuration guidance during implementation. Library maintainers can validate and publish updated descriptors with either registration tool.
+A typical client first uses `pick_libraries` during planning, inspects selected descriptors with `get_bindex`, and applies their installation and configuration guidance during implementation. Library maintainers can validate and publish updated descriptors with either registration tool.
 
 ## Resources
 
