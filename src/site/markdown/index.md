@@ -21,11 +21,11 @@ Generate or update the content as follows.
 
 ## Overview
 
-Bindex MCP Server is a Java 17 distribution that combines [Bindex Core](https://machai.machanism.org/bindex-core/index.html) with the [Machai MCP Server](https://machai.machanism.org/machai-mcp-server/index.html) runtime. It exposes Bindex metadata retrieval, registration, schema access, and natural-language library recommendation as Model Context Protocol (MCP) tools for compatible AI clients and automation.
+Bindex MCP Server is a standalone Java 17 distribution that combines [Bindex Core](https://machai.machanism.org/bindex-core/index.html) with the [Machai MCP Server](https://machai.machanism.org/machai-mcp-server/index.html) runtime. Its executable entry point is `org.machanism.machai.mcp.server.McpServer`; it exposes Bindex metadata retrieval, registration, schema access, and natural-language library recommendation as Model Context Protocol (MCP) tools for compatible AI clients and automation.
 
 Bindex records describe libraries through coordinates, versions, purpose, classification, integrations, dependencies, examples, and configuration. The server can retrieve complete or GraphQL-style filtered descriptors, validate and register records supplied as JSON objects, project-relative files, or remote URLs, and recommend reusable libraries from natural-language requirements. Recommendations combine AI-generated classifications and embeddings with language, architectural-layer, similarity-score, and version-aware filtering over a MongoDB-backed repository.
 
-The Machai MCP runtime discovers and publishes the Bindex tools and handles request routing. With no port configured, the executable communicates over STDIO; when started with `--port`, it serves MCP over HTTP at `/mcp`, with optional streamable session support. Bindex Core performs metadata normalization, persistence, retrieval, and semantic discovery, while configured GenAI and embedding services provide classification and vector generation.
+The Machai MCP runtime discovers and publishes the Bindex tools and handles request routing. With no port configured, the executable communicates over STDIO; when started with `--port`, it serves MCP over HTTP at `/mcp`, with optional streamable session support. Bindex Core performs metadata normalization, persistence, retrieval, and semantic discovery, while configured GenAI and embedding services provide classification and vector generation. The Maven project packages Bindex Core and Machai MCP Server as its runtime dependencies and can assemble a self-contained executable JAR.
 
 ![Bindex MCP Server component diagram](./images/c4-diagram.png)
 
