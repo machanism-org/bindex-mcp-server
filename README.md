@@ -2,6 +2,7 @@
 
 # Additional Infomation
 IMPORTANT: Do not add [Maven Central] shield to the page.
+- [![Download](https://img.shields.io/sourceforge/dt/machanism/machai%2F[artifactId]%2Freleases)](https://sourceforge.net/projects/machanism/files/machai/[artifactId]/releases/) 
 
 ## Overview 
 - Review the relatad web page: `https://machai.machanism.org/bindex-core/index.html` (selector: #bodyColumn).
@@ -25,9 +26,7 @@ IMPORTANT: Do not add [Maven Central] shield to the page.
 
 # Bindex MCP Server
 
-[![bindex](https://img.shields.io/badge/bindex-blue.svg)](https://raw.githubusercontent.com/machanism-org/bindex-mcp-server/refs/heads/main/bindex.json)
-
-Bindex MCP Server packages Bindex Core with the Machai MCP runtime to provide metadata registration, retrieval, and natural-language library recommendations over STDIO or HTTP.
+[![Download](https://img.shields.io/sourceforge/dt/machanism/machai%2Fbindex-mcp-server%2Freleases)](https://sourceforge.net/projects/machanism/files/machai/bindex-mcp-server/releases/) [![bindex](https://img.shields.io/badge/bindex-blue.svg)](https://raw.githubusercontent.com/machanism-org/bindex-mcp-server/refs/heads/main/bindex.json)
 
 ## Cloning and Getting Started
 
@@ -43,6 +42,8 @@ To clone and set up this project locally, follow these steps:
    mvn clean install
    ```
 
+Bindex MCP Server packages Bindex Core with the Machai MCP runtime to provide metadata registration, retrieval, and natural-language library recommendations over STDIO or HTTP.
+
 ## Overview
 
 Bindex MCP Server is a Java 17 distribution that combines [Bindex Core](https://machai.machanism.org/bindex-core/index.html) with the [Machai MCP Server](https://machai.machanism.org/machai-mcp-server/index.html). It exposes Bindex metadata retrieval, registration, and natural-language library recommendations as Model Context Protocol (MCP) tools for AI assistants, IDEs, and automation clients.
@@ -56,8 +57,8 @@ The Machai MCP runtime handles tool discovery, request routing, and transport. T
 Bindex registration and semantic recommendations use Machai's GenAI provider abstraction. Model values use the `Provider:Model` form. Configure the generation or classification model through `gw.model` or `pick.model`, and select a compatible embedding model through `embedding.model`; embedding dimensions must match the MongoDB vector index.
 
 - **OpenAI** — Use identifiers such as `OpenAI:gpt-4o-mini` for generation and `OpenAI:text-embedding-3-small` for embeddings. Set `OPENAI_API_KEY`; optionally set `OPENAI_BASE_URL` for an OpenAI-compatible endpoint.
-- **Anthropic** — Use identifiers such as `Anthropic:claude-3-5-sonnet`. Set `ANTHROPIC_API_KEY`; optionally set `ANTHROPIC_BASE_URL`.
-- **CodeMie** — Use identifiers such as `CodeMie:gpt-4o-mini`, `CodeMie:claude-3-5-sonnet`, or `CodeMie:text-embedding-005`. Set `GENAI_USERNAME` and `GENAI_PASSWORD`; optionally override the token endpoint with `AUTH_URL`.
+- **Anthropic** — Use an identifier such as `Anthropic:claude-3-5-sonnet`. Set `ANTHROPIC_API_KEY` to an API key or authorization token; optionally set `ANTHROPIC_BASE_URL`. Supported models may provide instructions, function tools, web search, MCP forwarding, and prompt caching.
+- **CodeMie** — Use identifiers such as `CodeMie:gpt-4o-mini`, `CodeMie:claude-3-5-sonnet`, or `CodeMie:text-embedding-005`. Set `GENAI_USERNAME` and `GENAI_PASSWORD`; a username containing `@` selects the password grant and other usernames select client credentials. Optionally override the OpenID Connect token endpoint with `AUTH_URL`. CodeMie routes supported GPT, Gemini, Claude, and embedding model families through compatible providers.
 - **Tools** — Use `Tools:yaml` to invoke registered local Java callbacks from a YAML tool-call descriptor; no external AI credentials are required.
 - **None** — Use `None:disabled` for a silent no-op provider or `None:log` for lifecycle diagnostics, suitable for safe defaults and tests.
 
@@ -66,14 +67,21 @@ Bindex registration and semantic recommendations use Machai's GenAI provider abs
 | Parameter | Description | Default value |
 | --- | --- | --- |
 | `gw.model` | GenAI model used for classification when `pick.model` is not set. | `CodeMie:gpt-5.6-terra-2026-07-09` |
+| `gw.mini.model` | Compact model used by Bindex generation and registration workflows. | Host/application-defined |
 | `pick.model` | Optional model specifically used to classify library-selection requests. | Falls back to `gw.model` |
 | `embedding.model` | Provider and model used to create vectors for semantic search. | Host/application-defined |
-| `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` | Credentials for the selected direct provider. | Required for the selected provider |
+| `OPENAI_API_KEY` | Credential for OpenAI or an OpenAI-compatible service. | Required when using OpenAI |
+| `OPENAI_BASE_URL` | Base URL override for an OpenAI-compatible API. | OpenAI SDK default |
+| `ANTHROPIC_API_KEY` | API key or authorization token for Anthropic requests. | Required when using Anthropic |
+| `ANTHROPIC_BASE_URL` | Base URL override for an Anthropic-compatible API. | Anthropic SDK default |
 | `GENAI_USERNAME`, `GENAI_PASSWORD` | Credentials used to authenticate with CodeMie. | Provider-specific |
 | `AUTH_URL` | CodeMie OpenID Connect token endpoint override. | CodeMie default endpoint |
 | `GENAI_TIMEOUT` | AI request timeout in seconds; `0` or unset uses SDK behavior. | `0` |
 | `MAX_OUTPUT_TOKENS` | Maximum number of output tokens generated by a model. | `18000` |
 | `MAX_TOOL_CALLS` | OpenAI Responses API tool-call limit; `0` leaves the limit unset. | `0` |
+| `WebSearchTool.type` | Enables provider-specific web search when configured and supported. | Not set |
+| `WebSearchTool.city`, `WebSearchTool.country`, `WebSearchTool.region` | Optional user-location hints for provider-specific web search. | Not set |
+| `MCP.url`, `MCP.name`, `MCP.authorization`, `MCP.description` | Defines a provider-visible MCP server; numbered groups such as `MCP_1.url` add servers. | Not set |
 | `BINDEX_REPO_URL` | MongoDB URI for Bindex metadata storage and vector search. | `mongodb+srv://cluster0.hivfnpr.mongodb.net/?appName=Cluster0` |
 | `BINDEX_USER`, `BINDEX_PASSWORD` | Optional MongoDB authentication credentials. | Not set |
 | `score` / `pick.score` | Minimum semantic similarity accepted for recommendations. | `0.85` for the AI tool; `0.86` in built-in pick/assembly acts |
@@ -158,6 +166,5 @@ A typical client first uses `pick_libraries` during planning, inspects selected 
 - [Bindex Core documentation](https://machai.machanism.org/bindex-core/index.html)
 - [Machai MCP Server CLI guide](https://machai.machanism.org/machai-mcp-server/index.html#CLI)
 - [MCP Server Maven Plugin documentation](https://machai.machanism.org/mcp-server-maven-plugin/index.html)
-- [Bindex MCP Server on Maven Central](https://central.sonatype.com/artifact/org.machanism.machai/bindex-mcp-server)
 - [Machai platform](https://machai.machanism.org/)
 - [Source repository](https://github.com/machanism-org/bindex-mcp-server)
