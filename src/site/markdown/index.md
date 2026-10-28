@@ -4,6 +4,7 @@ Generate or update the content as follows.
 # Page Structure: 
 1. Header
    - Project Title: need to use from pom.xml
+   - [![Download](https://img.shields.io/sourceforge/dt/machanism/machai%2F[artifactId]%2Freleases)](https://sourceforge.net/projects/machanism/files/machai/[artifactId]/releases/)
    - Bindex Badge [![bindex](https://img.shields.io/badge/bindex-blue.svg)](https://raw.githubusercontent.com/machanism-org/[artifactId]/refs/heads/main/bindex.json)
 # Overview
    - Full description the project based on package-info.java files in source folder..
@@ -17,6 +18,7 @@ Generate or update the content as follows.
 
 # Bindex MCP Server
 
+[![Download](https://img.shields.io/sourceforge/dt/machanism/machai%2Fbindex-mcp-server%2Freleases)](https://sourceforge.net/projects/machanism/files/machai/bindex-mcp-server/releases/)
 [![bindex](https://img.shields.io/badge/bindex-blue.svg)](https://raw.githubusercontent.com/machanism-org/bindex-mcp-server/refs/heads/main/bindex.json)
 
 ## Overview
