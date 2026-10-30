@@ -99,7 +99,7 @@ Bindex registration and semantic recommendations use Machai's GenAI provider abs
 
 ## Project Structure
 
-The MCP-compatible client communicates with the Machai runtime over STDIO or HTTP. The runtime dispatches calls through the Bindex tool adapter to metadata and recommendation operations. Metadata operations read local or remote descriptors and persist validated records in MongoDB, while recommendation operations use configured GenAI and embedding services before searching the repository.
+The MCP-compatible client communicates with the Machai runtime over STDIO or HTTP. The runtime dispatches calls through the Bindex tool adapter to separate metadata and recommendation operations. Metadata operations retrieve, validate, normalize, and register descriptors from project workspaces or remote sources, persisting them in MongoDB. Recommendation operations classify requirements, request embeddings from the configured GenAI service, and search MongoDB with relevance and version-aware filters.
 
 ![Bindex MCP Server component diagram](src/site/resources/images/c4-diagram.png)
 
