@@ -23,17 +23,24 @@ Generate or update the content as follows.
 
 ## Overview
 
-Bindex MCP Server is a standalone Java 17 distribution that combines [Bindex Core](https://machai.machanism.org/bindex-core/index.html) with the [Machai MCP Server](https://machai.machanism.org/machai-mcp-server/index.html) runtime. Its executable entry point is `org.machanism.machai.mcp.server.McpServer`; it exposes Bindex metadata retrieval, registration, schema access, and natural-language library recommendation as Model Context Protocol (MCP) tools for compatible AI clients and automation.
+Bindex MCP Server is a standalone Java 17 distribution that combines [Bindex Core](https://machai.machanism.org/bindex-core/index.html) with the [Machai MCP Server](https://machai.machanism.org/machai-mcp-server/index.html) runtime. Its executable entry point is `org.machanism.machai.mcp.server.McpServer`; it exposes Bindex metadata retrieval, registration, and natural-language library recommendation as Model Context Protocol (MCP) tools for compatible AI clients and automation. Bindex Core also supplies a schema resource and a metadata-generation prompt template for hosts that support those capabilities.
 
 Bindex records describe libraries through coordinates, versions, purpose, classification, integrations, dependencies, examples, and configuration. The server can retrieve complete or GraphQL-style filtered descriptors, validate and register records supplied as JSON objects, project-relative files, or remote URLs, and recommend reusable libraries from natural-language requirements. Recommendations combine AI-generated classifications and embeddings with language, architectural-layer, similarity-score, and version-aware filtering over a MongoDB-backed repository.
 
 The Machai MCP runtime discovers and publishes the Bindex tools and handles request routing. With no port configured, the executable communicates over STDIO; when started with `--port`, it serves MCP over HTTP at `/mcp`, with optional streamable session support. Bindex Core performs metadata normalization, persistence, retrieval, and semantic discovery, while configured GenAI and embedding services provide classification and vector generation. The Maven project packages Bindex Core and Machai MCP Server as its runtime dependencies and can assemble a self-contained executable JAR.
 
+This distribution module has no `src/main/java` directory or local `package-info.java` files. The package responsibilities below are therefore based on the bundled Bindex Core dependency's package documentation, rather than local Java implementations:
+
+- `org.machanism.machai.bindex.ai.tools` supplies `get_bindex`, `pick_libraries`, `register_bindex`, and `register_bindex_json`, along with the Bindex JSON schema resource and the `generate-bindex` prompt template. Its GraphQL-style filter selects top-level fields; nested selections are parsed but do not recursively trim nested objects.
+- `org.machanism.machai.bindex.core` separates the `BindexRepository` persistence contract from `MongoBindexRepository`. `Picker` classifies natural-language requests, generates embeddings, saves descriptors, and resolves dependencies. Recommendations return compact `BindexInfo` summaries with identifiers, versions, descriptions, and similarity scores.
+
+Together, these capabilities let clients inspect and publish library metadata and discover reusable implementations, reducing duplicate implementation work. The diagram shows the distribution boundary and its interactions with MCP clients, project files, remote descriptors, MongoDB, and configured AI services; the implementation components reside in the bundled dependencies.
+
 ![Bindex MCP Server component diagram](./images/c4-diagram.png)
 
 ## Supported AI providers
 
-Bindex registration and semantic recommendations use Machai's GenAI provider abstraction. Model values use the `Provider:Model` form. Configure the generation or classification model through `gw.model` or `pick.model`, and select a compatible embedding model through `embedding.model`; embedding dimensions must match the MongoDB vector index.
+Bindex registration and semantic recommendations use Machai's GenAI provider abstraction. Model values use the `Provider:Model` form. Configure the generation or classification model through `gw.model` or `pick.model`, and select a compatible embedding model through `embedding.model`; embedding dimensions must match the MongoDB vector index. OpenAI and compatible CodeMie routes support embeddings; Anthropic, Tools, and None are not substitutes for an embedding provider. Model examples below are identifiers, not guarantees of availability at a particular endpoint.
 
 - **OpenAI** — Use identifiers such as `OpenAI:gpt-4o-mini` for generation and `OpenAI:text-embedding-3-small` for embeddings. Set `OPENAI_API_KEY`; optionally set `OPENAI_BASE_URL` for an OpenAI-compatible endpoint.
 - **Anthropic** — Use an identifier such as `Anthropic:claude-3-5-sonnet`. Set `ANTHROPIC_API_KEY` to an API key or authorization token; optionally set `ANTHROPIC_BASE_URL`. Supported models can use instructions, function tools, web search, MCP server forwarding, and prompt caching for registered tools.
@@ -46,7 +53,7 @@ Bindex registration and semantic recommendations use Machai's GenAI provider abs
 | Parameter | Description | Default value |
 | --- | --- | --- |
 | Provider/model identifier | Selects an AI provider and model in `Provider:Model` form. | Required |
-| `gw.model` | GenAI model used for classification when `pick.model` is not set. | `CodeMie:gpt-5.6-terra-2026-07-09` |
+| `gw.model` | GenAI model used for classification when `pick.model` is not set. | Host/application-defined; classification requires `pick.model` or `gw.model` |
 | `pick.model` | Optional model specifically used to classify library-selection requests. | Falls back to `gw.model` |
 | `embedding.model` | Provider and model used to create vectors for semantic search. | Host/application-defined |
 | `OPENAI_API_KEY` | Credential for OpenAI or an OpenAI-compatible service. | Required when using OpenAI |
