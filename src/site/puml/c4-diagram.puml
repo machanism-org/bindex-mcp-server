@@ -10,7 +10,7 @@
 @startuml BindexMcpServerComponentDiagram
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Bindex MCP Server — Component Diagram
+title Bindex MCP Server — Component View (distribution-only module)
 
 LAYOUT_LEFT_RIGHT()
 
@@ -21,23 +21,20 @@ System_Ext(mongoDb, "Bindex repository (MongoDB)", "Persists Bindex metadata and
 System_Ext(genAiService, "GenAI and embedding service", "Generates classifications and embeddings for semantic discovery.")
 
 System_Boundary(bindexServer, "Bindex MCP Server") {
-    Container_Boundary(serverApplication, "Executable Java 17 application") {
-        Component(mcpRuntime, "Machai MCP Server runtime", "Java 17; STDIO or HTTP", "Hosts MCP transport, accepts client requests, and publishes the available tools.")
-        Component(toolAdapter, "Bindex MCP tools", "MCP tool callbacks", "Exposes get_bindex, register_bindex, register_bindex_json, and pick_libraries, and delegates each request to Bindex Core.")
-        Component(metadataOperations, "Bindex Core metadata operations", "Bindex Core", "Retrieves metadata and schema, and validates, normalizes, and registers Bindex records.")
-        Component(recommendationOperations, "Bindex Core recommendation operations", "Bindex Core", "Classifies requirements, performs semantic search, and applies relevance and version-aware filters.")
-    }
+    Container(serverApplication, "Bindex MCP Server executable", "Java 17; Machai MCP Server and Bindex Core", "Packages the MCP runtime and Bindex capabilities supplied by dependencies; no local Java components.")
 }
 
-Rel(mcpClient, mcpRuntime, "Invokes Bindex operations", "MCP over STDIO or HTTP (/mcp)")
-Rel(mcpRuntime, toolAdapter, "Dispatches tool calls")
-Rel(toolAdapter, metadataOperations, "Retrieves metadata, serves schema, and registers records")
-Rel(toolAdapter, recommendationOperations, "Finds recommended libraries")
-Rel(metadataOperations, projectWorkspace, "Reads Bindex JSON files", "File system")
-Rel(metadataOperations, remoteBindexSource, "Retrieves Bindex JSON documents", "HTTP(S)")
-Rel(metadataOperations, mongoDb, "Loads and saves Bindex metadata", "MongoDB")
-Rel(recommendationOperations, mongoDb, "Performs vector and metadata searches", "MongoDB")
-Rel(recommendationOperations, genAiService, "Requests classifications and embeddings", "Configured GenAI API")
+note right of serverApplication
+    This module has no src/main/java directory.
+    Internal components belong to the bundled dependencies
+    and are omitted to respect the local-source scope.
+end note
+
+Rel(mcpClient, serverApplication, "Invokes Bindex tools through the bundled MCP runtime", "MCP over STDIO or HTTP (/mcp)")
+Rel(serverApplication, projectWorkspace, "Reads Bindex JSON files through Bindex Core", "File system")
+Rel(serverApplication, remoteBindexSource, "Retrieves Bindex JSON documents through Bindex Core", "HTTP(S)")
+Rel(serverApplication, mongoDb, "Loads, saves, and searches Bindex metadata through Bindex Core", "MongoDB")
+Rel(serverApplication, genAiService, "Requests classifications and embeddings through Bindex Core", "Configured GenAI API")
 
 SHOW_LEGEND()
 @enduml
