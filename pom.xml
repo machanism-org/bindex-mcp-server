@@ -8,16 +8,19 @@
 	<parent>
 		<groupId>org.machanism.machai</groupId>
 		<artifactId>machai</artifactId>
-		<version>1.4.3</version>
+		<version>1.4.4-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>bindex-mcp-server</artifactId>
 	<name>Bindex MCP Server</name>
 
+	<!-- @guidance: Summarize the `src/site/markdown/index.md` introduction
+	section and put this conten to the `description` tag.  -->
 	<description>
-		Bindex MCP Server combines Bindex Core's metadata retrieval,
-		registration, and library recommendation capabilities with Machai MCP
-		Server runtime to expose tools over STDIO or HTTP.
+		A standalone Java 17 MCP server that combines Bindex Core's metadata
+		retrieval, registration, and semantic library recommendation capabilities
+		with the Machai MCP Server runtime, exposing tools to compatible clients
+		over STDIO or HTTP.
 	</description>
 
 	<profiles>
