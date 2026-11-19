@@ -10,7 +10,7 @@
 @startuml BindexMcpServerComponentDiagram
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Bindex MCP Server — Component View (distribution-only module)
+title Bindex MCP Server — Component View
 
 LAYOUT_LEFT_RIGHT()
 
@@ -20,21 +20,25 @@ System_Ext(remoteBindexSource, "Remote Bindex source", "HTTP(S) location hosting
 System_Ext(mongoDb, "Bindex repository (MongoDB)", "Persists Bindex metadata and supports vector search.")
 System_Ext(genAiService, "GenAI and embedding service", "Generates classifications and embeddings for semantic discovery.")
 
-System_Boundary(bindexServer, "Bindex MCP Server") {
-    Container(serverApplication, "Bindex MCP Server executable", "Java 17; Machai MCP Server and Bindex Core", "Packages the MCP runtime and Bindex capabilities supplied by dependencies; no local Java components.")
+Container_Boundary(bindexServer, "Bindex MCP Server executable (Java 17)") {
+    Component(mcpRuntime, "MCP server runtime", "machai-mcp-server", "Discovers tools, routes MCP requests, and provides STDIO or HTTP transport.")
+    Component(bindexTools, "Bindex MCP tools", "bindex-core", "Exposes metadata retrieval, registration, and library recommendation operations.")
+    Component(bindexServices, "Bindex metadata and discovery", "bindex-core", "Validates and normalizes descriptors, classifies requests, generates embeddings, and coordinates repository operations.")
 }
 
-note right of serverApplication
-    This module has no src/main/java directory.
-    Internal components belong to the bundled dependencies
-    and are omitted to respect the local-source scope.
+note right of bindexServer
+    This distribution module has no src/main/java directory.
+    The components shown are supplied by its declared dependencies;
+    no local Java implementation components are omitted from the view.
 end note
 
-Rel(mcpClient, serverApplication, "Invokes Bindex tools through the bundled MCP runtime", "MCP over STDIO or HTTP (/mcp)")
-Rel(serverApplication, projectWorkspace, "Reads Bindex JSON files through Bindex Core", "File system")
-Rel(serverApplication, remoteBindexSource, "Retrieves Bindex JSON documents through Bindex Core", "HTTP(S)")
-Rel(serverApplication, mongoDb, "Loads, saves, and searches Bindex metadata through Bindex Core", "MongoDB")
-Rel(serverApplication, genAiService, "Requests classifications and embeddings through Bindex Core", "Configured GenAI API")
+Rel(mcpClient, mcpRuntime, "Invokes Bindex tools", "MCP over STDIO or HTTP (/mcp)")
+Rel(mcpRuntime, bindexTools, "Dispatches tool requests", "In-process")
+Rel(bindexTools, bindexServices, "Requests metadata and discovery operations", "In-process")
+Rel(bindexServices, projectWorkspace, "Reads project-local Bindex JSON files", "File system")
+Rel(bindexServices, remoteBindexSource, "Retrieves Bindex JSON documents", "HTTP(S)")
+Rel(bindexServices, mongoDb, "Loads, saves, and searches metadata", "MongoDB")
+Rel(bindexServices, genAiService, "Requests classifications and embeddings", "Configured GenAI API")
 
 SHOW_LEGEND()
 @enduml
