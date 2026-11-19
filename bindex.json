@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/machanism-org/bindex-core/refs/heads/main/src/main/resources/schema/bindex-schema-v2.json",
-  "id": "org.machanism.machai:bindex-mcp-server:1.4.2",
+  "id": "org.machanism.machai:bindex-mcp-server:1.4.3",
   "name": "org.machanism.machai:bindex-mcp-server",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Bindex MCP Server is a Java 17 standalone Model Context Protocol server distribution that combines org.machanism.machai:bindex-core with the org.machanism.machai:machai-mcp-server runtime. It exposes Bindex metadata retrieval, metadata registration, schema-oriented descriptor validation, and natural-language library recommendation to MCP-compatible AI clients and automation. Bindex descriptors identify software artifacts through coordinates, versions, purpose, classification, integrations, dependencies, examples, and configuration guidance. The server retrieves complete or GraphQL-style filtered descriptors, registers records supplied as JSON objects, project-relative files, or remote URLs, and recommends reusable libraries from natural-language requirements. Recommendations use AI-generated classifications and embeddings together with language, architectural-layer, similarity-score, and version-aware filtering over a MongoDB-backed repository. The executable entry point is org.machanism.machai.mcp.server.McpServer. It communicates through STDIO when no port is supplied, or serves MCP over HTTP at /mcp when started with a port; streamable session-capable HTTP is available with the session option. Configure GenAI and embedding services for registration and semantic recommendation workflows.",
   "authors": [
     {
@@ -59,7 +59,7 @@
       "description": "The packaged application entry point starts the Machai MCP runtime with Bindex capabilities. Without a port option it uses STDIO. A port starts HTTP transport, and the session option enables streamable session-capable HTTP transport.",
       "examples": [
         {
-          "snippet": "java -jar bindex-mcp-server-1.4.2.jar --projectDir /path/to/project",
+          "snippet": "java -jar bindex-mcp-server-1.4.3.jar --projectDir /path/to/project",
           "description": "Launch the server as a local STDIO MCP process for the project workspace, then configure an MCP client to communicate with its standard input and output streams."
         }
       ]
@@ -73,11 +73,11 @@
       "description": "Runs the executable Bindex MCP server and publishes Bindex metadata retrieval, registration, and natural-language library recommendation operations. HTTP clients connect to the /mcp endpoint after the server starts with a port.",
       "examples": [
         {
-          "snippet": "java -jar bindex-mcp-server-1.4.2.jar --port 8080 --projectDir /path/to/project",
+          "snippet": "java -jar bindex-mcp-server-1.4.3.jar --port 8080 --projectDir /path/to/project",
           "description": "Start stateless HTTP MCP transport on port 8080, then connect a compatible client to http://localhost:8080/mcp to use Bindex operations."
         },
         {
-          "snippet": "java -jar bindex-mcp-server-1.4.2.jar --port 8080 --session --projectDir /path/to/project",
+          "snippet": "java -jar bindex-mcp-server-1.4.3.jar --port 8080 --session --projectDir /path/to/project",
           "description": "Start streamable session-capable HTTP transport for a client that supports session-aware MCP communication."
         }
       ]
@@ -89,7 +89,7 @@
       "description": "The Bindex Core-backed MCP operations retrieve a descriptor, register a Bindex JSON file or JSON object, and find recommended libraries from a natural-language requirement. Registration normalizes metadata and can generate classification and embeddings. Recommendation uses configured semantic search, repository, and relevance settings.",
       "examples": [
         {
-          "snippet": "mvn org.machanism.machai:mcp-server-maven-plugin:1.4.2:stateless -Dmcp.port=8080 -Dmcp.config=/path/to/mcp.properties",
+          "snippet": "mvn org.machanism.machai:mcp-server-maven-plugin:1.4.3:stateless -Dmcp.port=8080 -Dmcp.config=/path/to/mcp.properties",
           "description": "Resolve and run the related Maven plugin, configure it with a readable Machai MCP properties file, then connect an MCP client to register a bindex.json document or request matching libraries."
         }
       ]
@@ -104,7 +104,7 @@
         "Clone the project and run mvn clean install from the project root to build the artifact.",
         "Configure MongoDB access through BINDEX_REPO_URL and any required BINDEX_USER and BINDEX_PASSWORD values.",
         "Configure a generation or classification model with gw.model or pick.model and a compatible embedding.model; provide provider credentials such as OPENAI_API_KEY, ANTHROPIC_API_KEY, or GENAI_USERNAME and GENAI_PASSWORD when required.",
-        "Configure an MCP-compatible client to launch java -jar bindex-mcp-server-1.4.2.jar --projectDir /path/to/project.",
+        "Configure an MCP-compatible client to launch java -jar bindex-mcp-server-1.4.3.jar --projectDir /path/to/project.",
         "Use the connected client to retrieve Bindex metadata, register a bindex.json document, or request library recommendations."
       ]
     },
@@ -112,9 +112,9 @@
       "title": "Run an HTTP MCP service for team automation",
       "description": "This scenario runs the packaged component as an HTTP MCP service that remote automation or team clients can invoke.",
       "steps": [
-        "Download bindex-mcp-server-1.4.2.jar or build the project with Maven.",
+        "Download bindex-mcp-server-1.4.3.jar or build the project with Maven.",
         "Configure repository and AI provider settings before startup when registration or semantic recommendation is required.",
-        "Run java -jar bindex-mcp-server-1.4.2.jar --port 8080 --projectDir /path/to/project.",
+        "Run java -jar bindex-mcp-server-1.4.3.jar --port 8080 --projectDir /path/to/project.",
         "Configure an MCP-compatible HTTP client to connect to http://localhost:8080/mcp.",
         "Add --session to the startup command when the client requires streamable session-aware HTTP transport.",
         "Invoke Bindex retrieval, registration, and recommendation operations to maintain artifact metadata and discover libraries matching stated development needs."
@@ -122,8 +122,8 @@
     }
   ],
   "dependencies": [
-    "org.machanism.machai:bindex-core:1.4.2",
-    "org.machanism.machai:machai-mcp-server:1.4.2",
+    "org.machanism.machai:bindex-core:1.4.3",
+    "org.machanism.machai:machai-mcp-server:1.4.3",
     "org.slf4j:slf4j-api:2.0.17"
   ],
   "location": {
@@ -132,7 +132,7 @@
     "coordinates": {
       "group": "org.machanism.machai",
       "artifactId": "bindex-mcp-server",
-      "version": "1.4.2",
+      "version": "1.4.3",
       "extension": "jar"
     }
   }
